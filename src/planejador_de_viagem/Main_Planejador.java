@@ -2,50 +2,12 @@
 /*
 Regras do Programa
 
-1. Exibir um menu inicial:
-Planejar viagem////////////////////////////////////////////
-Sair///////////////////////////////////////////////////////
-
-2. Solicitar os seguintes dados:
-Nome do viajante///////////////////////////////////////////
-Data da viagem no formato dd/MM/yyyy///////////////////////
-Quantidade de dias de viagem (inteiro)/////////////////////
-Valor gasto por dia (decimal)//////////////////////////////
-
 3. Validar:
 Campos vazios
 Conversão de números (usar parseInt e parseDouble)/////////
-Data válida (usar LocalDate)
+Data válida (usar LocalDate)///////////////////////////////
 Valores negativos não são permitidos
 
-4. Processar:
-Calcular o valor total da viagem:
-total = dias * valorPorDia
-Verificar se a viagem é:
-Passada
-Hoje
-Futura
-Se for futura, calcular quantos dias faltam
-
-* Exibir resultado:
-Nome
-Data da viagem
-Dias de viagem
-Valor total
-Situação da viagem (passada, hoje ou futura)
-
-* Exemplo de funcionamento
-
-Entrada:
-Nome: Sebastiana
-Data: 20/12/2026
-Dias: 5
-Valor por dia: 150.50
-
-Saída:
-Sebastiana, sua viagem será em 20/12/2026
-Faltam 40 dias
-Total estimado: R$ 752.50
 */
 
 package planejador_de_viagem;
@@ -54,6 +16,7 @@ import java.time.LocalDate;
 
 import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
+import java.time.temporal.ChronoUnit;
 public class Main_Planejador {
 
     public static void main(String[] args) {
@@ -75,49 +38,58 @@ public class Main_Planejador {
     public static void resultadosMenu(int valor){
         LocalDate dataAtual = LocalDate.now();
         DecimalFormat df2 = new DecimalFormat("0.00");
+
         if(valor == 1){
+            
+            //Pegando data atual.
+            int anoAtual = dataAtual.getYear();
+            int mesAtual = dataAtual.getMonthValue();
+            int diaAtual = dataAtual.getDayOfMonth();
+            
             //pedir nome.
             String nome = JOptionPane.showInputDialog(null,"Nome: ","Informar Nome",JOptionPane.QUESTION_MESSAGE);
+
             //pedir data.
-            String data = JOptionPane.showInputDialog(null,"Informe a Data da Viagem:\nDia, Mês e Ano (dd , mm , aaaa)","Informar Data",JOptionPane.QUESTION_MESSAGE);
-            String[] partes = data.split(",");
-            int diaMarcar = Integer.parseInt(partes[0]);
+            String dataUser = JOptionPane.showInputDialog(null,"Informe a Data da Viagem:\nANO, MÊS e DIA (aaaa , mm , dd)","Informar Data da Viagem",JOptionPane.QUESTION_MESSAGE);
+
+            //Converter String para dias separados.
+            String[] partes = dataUser.split(",");
+            int anoMarcar = Integer.parseInt(partes[0]);
             int mesMarcar = Integer.parseInt(partes[1]);
-            int anoMarcar = Integer.parseInt(partes[2]);
+            int diaMarcar = Integer.parseInt(partes[2]);
+
+            //Converter String para LocalDate.
+            LocalDate dataFutura = LocalDate.of(anoMarcar, mesMarcar, diaMarcar);
+
+            // Calcular diferença em dias
+            long diasResto = ChronoUnit.DAYS.between(dataAtual, dataFutura);
+
             //pedir duração da viagem.
             int qntDias = Integer.parseInt(JOptionPane.showInputDialog(null,"Informar a duração da viagem em dias","Informar Tempo",JOptionPane.QUESTION_MESSAGE));
             double valorDia = Double.parseDouble(JOptionPane.showInputDialog(null,"Informar o valor gasto por dia","Informar Gasto",JOptionPane.QUESTION_MESSAGE));
             //pedir valor gasto.
             JOptionPane.showMessageDialog(null,"Usuário: "+nome+"\n\nData da viagem: ("+diaMarcar+" / "+mesMarcar+" / "+anoMarcar+")\n"
-                    + "Duração da viagem: "+qntDias+" dias.\nValor por dia: R$ "+df2.format(valorDia),"Informações de Usuário",JOptionPane.INFORMATION_MESSAGE);
-            
-            
-            /*
-            4. Processar:
-            Verificar se a viagem é:
-            Passada
-            Hoje
-            Futura
-            Se for futura, calcular quantos dias faltam
-            
-            Saída:
-            Sebastiana, sua viagem será em 20/12/2026
-            Faltam 40 dias
-            Total estimado: R$ 752.50
+                    + "Duração da viagem: "+qntDias+" dias.\nValor por dia: R$ "+df2.format(valorDia),"Informações de Planejamento do Usuário ("+diaAtual+"/"+mesAtual+"/"+anoAtual+")",JOptionPane.INFORMATION_MESSAGE);
 
-            */
+            //Verificar se a viagem é Futura.
+            if(diasResto > 0){
+                JOptionPane.showMessageDialog(null,nome+" sua viagem será em ("+diaMarcar+" / "+mesMarcar+" / "+anoMarcar+")\n"
+                    +"Faltam "+diasResto+" dias.\nTotal estimado para os "+qntDias+" dias: R$ "+df2.format(qntDias*valorDia),"Informação de viagem ("+diaAtual+"/"+mesAtual+"/"+anoAtual+")",JOptionPane.INFORMATION_MESSAGE);
             
-            int anoAtual = dataAtual.getYear();
-            int mesAtual = dataAtual.getMonthValue();
-            int diaAtual = dataAtual.getDayOfMonth();
-            
-
+            //Verificar se a viagem é Hoje.
+            }else if(diasResto == 0){
+                JOptionPane.showMessageDialog(null,nome+" sua viagem será (Hoje)\nTotal estimado para os "+qntDias+" dias: R$ "+df2.format(qntDias*valorDia),"Informação de viagem ("+diaAtual+"/"+mesAtual+"/"+anoAtual+")",JOptionPane.INFORMATION_MESSAGE);
+   
+            //Verificar se a viagem é Passada.
+            }else if(diasResto < 0){
+                //convertendo dias negativos para positivos.
+                diasResto = Math.abs(diasResto);
+                
+                JOptionPane.showMessageDialog(null,nome+" a data da viagem passada foi em ("+diaMarcar+" / "+mesMarcar+" / "+anoMarcar+")\n"
+                    +"Ocorreu a "+diasResto+" dia(s) atrás.","Informação de viagem ("+diaAtual+"/"+mesAtual+"/"+anoAtual+")",JOptionPane.INFORMATION_MESSAGE);
+   
+            }
  
-            JOptionPane.showMessageDialog(null,nome+" sua viagem será em ("+diaMarcar+" / "+mesMarcar+" / "+anoMarcar+")\n"
-                    + "Faltam X dias.\nTotal estimado: R$ "+df2.format(qntDias*valorDia));
-            
-
-            
         }else if(valor == 2){
             finaliza();  
         }
