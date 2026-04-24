@@ -45,7 +45,7 @@ public class Main_Planejador {
         } while (true);
         return m01;
     }
-    //Opção Planejar viagem do Menu.
+    //Opção (1)Planejar viagem do Menu.
     public static void resultadosMenu(int valor){
         LocalDate dataAtual = LocalDate.now();
         DecimalFormat df2 = new DecimalFormat("0.00");
@@ -108,19 +108,11 @@ public class Main_Planejador {
                     }else{
                         qntDias = Integer.parseInt(quantidadeDia);
                         break;
-                    } 
-
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números!","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             } while (true);
-            
-            
-            
-            
-            
-            
-            ///////////////////////////////PROBLEMA///////////////////////////////
             //pedir valor gasto por dia.
             double valorDia=0.0;
             //Valores negativos e Campos vazios não são permitidos.
@@ -130,21 +122,14 @@ public class Main_Planejador {
                     finaliza();
                 }else if(quantidadeGasto.isEmpty()){
                     JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números!","Erro",JOptionPane.ERROR_MESSAGE);
-                }else if(quantidadeGasto.matches("\\d+")) {
+                //usando .matches("\\d+(\\.\\d+)?") para impedir simbolos sem atrapalhar uso de double.
+                }else if(quantidadeGasto.matches("\\d+(\\.\\d+)?")) {
                     valorDia = Double.parseDouble(quantidadeGasto);
                     break;
                 }else{
                     JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números!","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             } while (true);
-            ///////////////////////////////PROBLEMA///////////////////////////////
-
-
-            
-            
-            
-            
-            
             //Painel de planejamento do Usuário.
             JOptionPane.showMessageDialog(null,"Usuário: "+nome+"\n\nData da viagem: ("+diaMarcar+" / "+mesMarcar+" / "+anoMarcar+")\n"
                     + "Duração da viagem: "+qntDias+" dias.\nValor gasto por dia: R$ "+df2.format(valorDia),"Planejamento do Usuário ("+diaAtual+"/"+mesAtual+"/"+anoAtual+")",JOptionPane.INFORMATION_MESSAGE);
@@ -162,7 +147,7 @@ public class Main_Planejador {
                 JOptionPane.showMessageDialog(null,nome+" a data da viagem foi em ("+diaMarcar+" / "+mesMarcar+" / "+anoMarcar+")\n"
                     +"Ocorreu a "+diasResto+" dia(s) atrás.","Informação de viagem ("+diaAtual+"/"+mesAtual+"/"+anoAtual+")",JOptionPane.INFORMATION_MESSAGE);   
             }
-        //Opção Sair do Menu.
+        //Opção (2)Sair do Menu.
         }else if(valor == 2){
             finaliza();  
         }
