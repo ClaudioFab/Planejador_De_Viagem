@@ -1,4 +1,3 @@
-
 package planejador_de_viagem;
 
 import java.time.LocalDate;
@@ -21,10 +20,13 @@ public class Main_Planejador {
         //Valores negativos e Campos vazios não são permitidos.
         do {  
             String menu = JOptionPane.showInputDialog(null,"(1) Planejar viagem\n\n(2) Sair\n\nEscolha a opção desejada.","Menu de Planejamento",JOptionPane.INFORMATION_MESSAGE);
+            //Criando exceções.
             if (menu == null) {
                 finaliza();
+            //Exceção impedindo campo vazio.    
             }else if(menu.isEmpty()){
                 JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números do Menu!","Erro",JOptionPane.ERROR_MESSAGE);
+            //Utilizando .matches("\\d+") para utilizar switch case dentro da exceção. 
             }else if(menu.matches("\\d+")) {
                 m01 = Integer.parseInt(menu);
                 switch (m01) {
@@ -48,13 +50,14 @@ public class Main_Planejador {
     //Opção (1)Planejar viagem do Menu.
     public static void resultadosMenu(int valor){
         LocalDate dataAtual = LocalDate.now();
+        //Instanciando formato decimal para valor de dinheiro em 0,00
         DecimalFormat df2 = new DecimalFormat("0.00");
         //Pegando data atual.
         int anoAtual = dataAtual.getYear();
         int mesAtual = dataAtual.getMonthValue();
         int diaAtual = dataAtual.getDayOfMonth();
         if(valor == 1){            
-            //pedir nome do viajante .
+            //Pedir nome do viajante .
             String nome;
             do {                
                 nome = JOptionPane.showInputDialog(null,"Nome: ","Informar Nome",JOptionPane.QUESTION_MESSAGE);
@@ -68,7 +71,7 @@ public class Main_Planejador {
                     break;
                 }                
             } while (true);   
-            //pedir data da viagem no formato dd/MM/yyyy.
+            //Pedir data da viagem no formato dd/MM/yyyy.
             String dataUser;
             do {                
                 dataUser = JOptionPane.showInputDialog(null,"Informe a Data da Viagem:\nDIA, MÊS e ANO (dd , mm , aaaa)","Informar Data da Viagem",JOptionPane.QUESTION_MESSAGE);
@@ -87,19 +90,22 @@ public class Main_Planejador {
             int diaMarcar = Integer.parseInt(partes[0]);
             int mesMarcar = Integer.parseInt(partes[1]);
             int anoMarcar = Integer.parseInt(partes[2]);
-            //Converter String para LocalDate.
+            //Converter para dataFutura para usar ChronoUnit.DAYS.between.
             LocalDate dataFutura = LocalDate.of(anoMarcar, mesMarcar, diaMarcar);
             // Calcular diferença em dias
             long diasResto = ChronoUnit.DAYS.between(dataAtual, dataFutura);
-            //pedir duração da viagem.
+            //Pedir duração da viagem.
             int qntDias=0;
             //Valores negativos e Campos vazios não são permitidos.
             do {  
                 String quantidadeDia = JOptionPane.showInputDialog(null,"Informar a duração da viagem em dias","Informar Tempo",JOptionPane.QUESTION_MESSAGE);
+                //Escolha Cancel nome.
                 if (quantidadeDia == null) {
                     finaliza();
+                //Escolha deixar vazio nome.
                 }else if(quantidadeDia.isEmpty()){
                     JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números!","Erro",JOptionPane.ERROR_MESSAGE);
+                //Utilizando .matches("\\d+") para utilizar if/else dentro da exceção.
                 }else if(quantidadeDia.matches("\\d+")) {
                     qntDias = Integer.parseInt(quantidadeDia);
                     if(qntDias <=0){
@@ -113,16 +119,18 @@ public class Main_Planejador {
                     JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números!","Erro",JOptionPane.ERROR_MESSAGE);
                 }
             } while (true);
-            //pedir valor gasto por dia.
+            //Pedir valor gasto por dia.
             double valorDia=0.0;
             //Valores negativos e Campos vazios não são permitidos.
             do {  
                 String quantidadeGasto = JOptionPane.showInputDialog(null,"Informar o valor gasto por dia","Informar Gasto",JOptionPane.QUESTION_MESSAGE);
+                //Escolha Cancel nome.
                 if (quantidadeGasto == null) {
                     finaliza();
+                //Escolha deixar vazio nome.
                 }else if(quantidadeGasto.isEmpty()){
                     JOptionPane.showMessageDialog(null,"Entrada inválida!\nUtilize apenas Números!","Erro",JOptionPane.ERROR_MESSAGE);
-                //usando .matches("\\d+(\\.\\d+)?") para impedir simbolos sem atrapalhar uso de double.
+                //Usando .matches("\\d+(\\.\\d+)?") para utilizar exceção sem atrapalhar uso de double.
                 }else if(quantidadeGasto.matches("\\d+(\\.\\d+)?")) {
                     valorDia = Double.parseDouble(quantidadeGasto);
                     break;
