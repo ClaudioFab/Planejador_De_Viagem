@@ -82,6 +82,11 @@ O sistema identifica três cenários:
 - Converte valores negativos usando:
   - Math.abs()
 
+## Interface de Confirmação para Repetição
+
+  - Após a execução das tarefas principais, o sistema utiliza a uma caixa de diálogo.
+    - Esta janela questiona se o usuário deseja realizar uma nova tentativa ou operação.
+
 ---
 
 ## Cálculo de custos
@@ -120,15 +125,6 @@ Métodos principais:
 - Projeto voltado para iniciantes  
 - Interface totalmente gráfica (sem console)  
 - O programa encerra após execução  
-
----
-
-## Melhorias futuras
-
-- Permitir formato de data com "/"
-- Uso de try/catch para evitar erros de conversão
-- Loop para múltiplos planejamentos
-- Interface mais avançada (Swing ou JavaFX)
 
 ---
 
