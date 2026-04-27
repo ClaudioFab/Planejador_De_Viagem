@@ -8,12 +8,25 @@ import java.time.temporal.ChronoUnit;
 public class Main_Planejador {
     public static void main(String[] args) {
         iniciando();
-        resultadosMenu(menuBase(0));
+        recomeçar();        
     }
     //Mensagem inicial.
     public static void iniciando(){
         JOptionPane.showMessageDialog(null,"04.0 - JOptionPane - Planejador de Viagem\n","Iniciando",JOptionPane.INFORMATION_MESSAGE);
-    }    
+    }
+    //Loop de reinicio.
+    public static void recomeçar(){
+        do { 
+            resultadosMenu(menuBase(0));
+            int volta = JOptionPane.showConfirmDialog(null,"Deseja tentar novamente ?","Reiniciar?",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            if(volta == 0){
+                continue;
+            }
+            if(volta == 1){
+                finaliza();
+            } 
+        } while (true);   
+    }
     //Menu inicial com Planejar viagem/Sair.
     public static int menuBase(int valor){
         int m01=0;        
@@ -159,7 +172,7 @@ public class Main_Planejador {
         }else if(valor == 2){
             finaliza();  
         }
-        finaliza();
+        
     }
     //Função de finalizar.
     public static void finaliza(){
